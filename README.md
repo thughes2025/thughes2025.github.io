@@ -1,594 +1,213 @@
-# thughes2025.github.io
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Printing Services - Custom Prints On Demand</title>
+    <title>THughes 3D | Professional Printing Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             line-height: 1.6;
-            color: #333;
         }
 
+        /* --- Hero Section --- */
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem 0;
+            height: 80vh;
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)), 
+                        url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=2070') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
         }
 
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
+        header h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; letter-spacing: -1px; }
+        header p { font-size: 1.25rem; color: var(--text-dim); max-width: 600px; margin-bottom: 2rem; }
 
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.95;
-        }
-
-        nav {
-            background-color: #333;
-            padding: 1rem 0;
-            text-align: center;
-        }
-
-        nav a {
+        .btn-primary {
+            background: var(--primary);
             color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
             text-decoration: none;
-            margin: 0 1.5rem;
-            font-weight: 500;
-            transition: color 0.3s;
+            font-weight: 600;
+            transition: 0.3s;
         }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
-        nav a:hover {
-            color: #667eea;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        section {
-            margin: 3rem 0;
-        }
-
-        section h2 {
-            color: #667eea;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 0.5rem;
-            display: inline-block;
-        }
+        /* --- Features Grid --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+        
+        .section-title { text-align: center; margin-bottom: 50px; font-size: 2rem; }
 
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            gap: 25px;
         }
 
         .feature-card {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-            transition: transform 0.3s;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
         }
+        .feature-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .feature-card h3 { margin-bottom: 10px; color: var(--primary); }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-        }
-
-        .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .specs {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-        }
-
-        .specs h3 {
-            color: #667eea;
-            margin-bottom: 1rem;
-        }
-
-        .spec-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .spec-item:last-child {
-            border-bottom: none;
-        }
-
-        .spec-label {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .spec-value {
-            color: #666;
-        }
-
+        /* --- Pricing Table --- */
         .pricing-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
-            background: white;
-            border-radius: 8px;
+            margin-top: 30px;
+            background: var(--card-bg);
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
-        .pricing-table th {
-            background-color: #667eea;
-            color: white;
-            padding: 1rem;
+        .pricing-table th, .pricing-table td {
+            padding: 15px;
             text-align: left;
-            font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
+        .pricing-table th { background: rgba(255,255,255,0.05); color: var(--primary); }
 
-        .pricing-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .pricing-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .pricing-table tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .warning-box {
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 1.5rem;
-            border-radius: 4px;
-            margin: 1.5rem 0;
-        }
-
-        .warning-box h4 {
-            color: #856404;
-            margin-bottom: 0.5rem;
-        }
-
-        .warning-box p {
-            color: #856404;
-        }
-
-        .cta-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            margin: 2rem 0;
-        }
-
-        .cta-section h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: #667eea;
-            color: white;
-            padding: 0.75rem 2rem;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: background-color 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 0.5rem;
-        }
-
-        .btn:hover {
-            background-color: #764ba2;
-        }
-
-        .btn-secondary {
-            background-color: white;
-            color: #667eea;
-        }
-
-        .btn-secondary:hover {
-            background-color: #f0f0f0;
-        }
-
+        /* --- Form Styling --- */
         .order-form {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 8px;
-            max-width: 600px;
-            margin: 2rem auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            margin: 0 auto;
         }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; }
+        input, select, textarea {
             width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: inherit;
-            font-size: 1rem;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .checkbox-group input {
-            width: auto;
-            margin: 0;
-        }
-
-        footer {
-            background-color: #333;
+            padding: 12px;
+            background: #0f172a;
+            border: 1px solid #334155;
             color: white;
+            border-radius: 6px;
+        }
+        input:focus { border-color: var(--primary); outline: none; }
+
+        .cashapp-box {
+            background: #00d63222;
+            border: 1px dashed #00d632;
+            padding: 20px;
             text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
+            border-radius: 12px;
+            margin-top: 40px;
         }
 
-        .contact-info {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            text-align: center;
-        }
-
-        .contact-info p {
-            margin: 0.5rem 0;
-            font-size: 1.1rem;
-        }
-
-        .contact-link {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .contact-link:hover {
-            text-decoration: underline;
-        }
-
-        .deposit-highlight {
-            background-color: #ffe5e5;
-            border-left: 4px solid #dc3545;
-            padding: 1rem;
-            border-radius: 4px;
-            margin: 1rem 0;
-        }
-
-        .deposit-highlight strong {
-            color: #dc3545;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8rem;
-            }
-
-            nav a {
-                display: block;
-                margin: 0.5rem 0;
-            }
-
-            .container {
-                padding: 1rem;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-        }
+        footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.9rem; }
     </style>
 </head>
 <body>
+
     <header>
-        <h1>🖨️ 3D Printing Services</h1>
-        <p>Custom 3D Prints On Demand - Fast, Reliable, Professional</p>
+        <h1>THughes 3D</h1>
+        <p>Custom 3D Prints On Demand. Fast, reliable, and professional-grade manufacturing for your wildest ideas.</p>
+        <a href="#order" class="btn-primary">Start Your Project</a>
     </header>
 
-    <nav>
-        <a href="#services">Services</a>
-        <a href="#specs">Specifications</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#order">Place Order</a>
-        <a href="#contact">Contact</a>
-    </nav>
+    <div class="container">
+        <h2 class="section-title">What We Offer</h2>
+        <div class="features">
+            <div class="feature-card">
+                <h3>📦 Custom Prints</h3>
+                <p>Upload your STL file. We print any safe and legal design with precision.</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ Fast Turnaround</h3>
+                <p>Most prints completed in 1-5 business days depending on complexity.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🌍 Global Shipping</h3>
+                <p>International shipping available. Costs calculated by weight and location.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✅ Quality Pro</h3>
+                <p>Using professional-grade machines with strict quality control.</p>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
-        <!-- Services Section -->
-        <section id="services">
-            <h2>What We Offer</h2>
-            <div class="features">
-                <div class="feature-card">
-                    <h3>📦 Custom Prints</h3>
-                    <p>We print any safe and legal design. Upload your STL file or provide specifications, and we'll bring your ideas to life.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>⚡ Fast Turnaround</h3>
-                    <p>Competitive pricing with quick production times. Most prints completed within 1-5 business days depending on complexity.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🌍 Worldwide Shipping</h3>
-                    <p>We ship internationally. Shipping costs calculated based on location and package weight.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>✅ Quality Guaranteed</h3>
-                    <p>Professional-grade 3D printers with careful quality control. Your satisfaction is our priority.</p>
-                </div>
+        <h2 class="section-title">Pricing Guide</h2>
+        <table class="pricing-table">
+            <thead>
+                <tr>
+                    <th>Size/Type</th>
+                    <th>Price Range</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Small (under 50g)</td><td>$15 - $40</td><td>1-2 Days</td></tr>
+                <tr><td>Medium (50-200g)</td><td>$40 - $100</td><td>2-3 Days</td></tr>
+                <tr><td>Large (200g+)</td><td>$100 - $250</td><td>3-5 Days</td></tr>
+                <tr><td>Resin (High Detail)</td><td>$30 - $150</td><td>2-4 Days</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container" id="order">
+        <h2 class="section-title">Place Your Order</h2>
+        <form class="order-form">
+            <div class="form-group">
+                <label>Your Name *</label>
+                <input type="text" placeholder="John Doe" required>
             </div>
-        </section>
-
-        <!-- Specifications Section -->
-        <section id="specs">
-            <h2>Print Specifications</h2>
-            
-            <div class="specs">
-                <h3>Standard Print Dimensions</h3>
-                <div class="spec-item">
-                    <span class="spec-label">Maximum Standard Size:</span>
-                    <span class="spec-value">220mm × 220mm × 220mm</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Minimum Feature Size:</span>
-                    <span class="spec-value">0.4mm</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Print Accuracy:</span>
-                    <span class="spec-value">±0.3mm</span>
-                </div>
+            <div class="form-group">
+                <label>Email Address *</label>
+                <input type="email" placeholder="john@example.com" required>
             </div>
-
-            <div class="deposit-highlight">
-                <strong>⚠️ Important - Large Print Orders:</strong><br>
-                Orders exceeding 220mm × 220mm × 220mm require:
-                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                    <li>Prior approval from our team</li>
-                    <li>$50 deposit (non-refundable, applied to final cost)</li>
-                </ul>
-                Contact us before placing large orders.
+            <div class="form-group">
+                <label>Print Description *</label>
+                <textarea rows="4" placeholder="Dimensions, material preference, and what you're building..."></textarea>
             </div>
-
-            <div class="specs">
-                <h3>Materials Available</h3>
-                <div class="spec-item">
-                    <span class="spec-label">PLA Filament:</span>
-                    <span class="spec-value">Biodegradable, various colors</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">PETG Filament:</span>
-                    <span class="spec-value">Durable, impact resistant</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Resin Printing:</span>
-                    <span class="spec-value">Available for high-detail prints</span>
-                </div>
+            <div class="form-group">
+                <label>Preferred Material</label>
+                <select>
+                    <option>PLA (Biodegradable)</option>
+                    <option>PETG (Durable)</option>
+                    <option>Resin (High Detail)</option>
+                </select>
             </div>
-
-            <div class="warning-box">
-                <h4>What We Cannot Print</h4>
-                <p>We cannot print items that are illegal, unsafe, or violate intellectual property rights. This includes weapons, counterfeit items, or anything designed to cause harm. All orders must be safe and legal.</p>
+            <div class="form-group">
+                <label>Upload STL File (Optional)</label>
+                <input type="file">
             </div>
-        </section>
+            <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">Send Order Request</button>
+        </form>
 
-        <!-- Pricing Section -->
-        <section id="pricing">
-            <h2>Pricing</h2>
-            <p>Pricing is calculated based on material volume, complexity, and print time. Here's an approximate guide:</p>
-            
-            <table class="pricing-table">
-                <thead>
-                    <tr>
-                        <th>Print Size/Type</th>
-                        <th>Estimated Price Range</th>
-                        <th>Turnaround Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Small Print (under 50g)</td>
-                        <td>$15 - $40</td>
-                        <td>1-2 days</td>
-                    </tr>
-                    <tr>
-                        <td>Medium Print (50-200g)</td>
-                        <td>$40 - $100</td>
-                        <td>2-3 days</td>
-                    </tr>
-                    <tr>
-                        <td>Large Print (200g+, under 220³mm)</td>
-                        <td>$100 - $250</td>
-                        <td>3-5 days</td>
-                    </tr>
-                    <tr>
-                        <td>Custom/Extra Large (approval required)</td>
-                        <td>Custom quote + $50 deposit</td>
-                        <td>5+ days</td>
-                    </tr>
-                    <tr>
-                        <td>Resin Prints (high detail)</td>
-                        <td>$30 - $150</td>
-                        <td>2-4 days</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <p style="margin-top: 1rem; font-style: italic; color: #666;">Shipping costs calculated at checkout based on location and weight. Contact us for exact pricing on your specific project.</p>
-        </section>
-
-        <!-- Order Section -->
-        <section id="order">
-            <h2>Place Your Order</h2>
-            <p style="margin-bottom: 1.5rem;">Ready to get your prints made? Fill out the form below or contact us directly.</p>
-            
-            <form class="order-form" onsubmit="handleOrderSubmit(event)">
-                <div class="form-group">
-                    <label for="name">Your Name *</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone">
-                </div>
-
-                <div class="form-group">
-                    <label for="description">Print Description *</label>
-                    <textarea id="description" name="description" placeholder="Describe what you want printed. Include dimensions, material preference, etc." required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="dimensions">Approximate Dimensions (mm) *</label>
-                    <input type="text" id="dimensions" name="dimensions" placeholder="e.g., 100x100x50" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="material">Preferred Material</label>
-                    <select id="material" name="material">
-                        <option value="">Select material...</option>
-                        <option value="pla">PLA Filament</option>
-                        <option value="petg">PETG Filament</option>
-                        <option value="resin">Resin (High Detail)</option>
-                        <option value="unsure">Not sure - recommend something</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="file">Upload STL File (optional)</label>
-                    <input type="file" id="file" name="file" accept=".stl,.obj">
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="large" name="large">
-                        <label for="large" style="margin: 0;">This print exceeds 220mm × 220mm × 220mm</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="notes">Additional Notes</label>
-                    <textarea id="notes" name="notes" placeholder="Any special requirements or questions?"></textarea>
-                </div>
-
-                <button type="submit" class="btn" style="width: 100%; font-size: 1.1rem;">Send Order Request</button>
-            </form>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact">
-            <h2>Get In Touch</h2>
-            <div class="contact-info">
-                <p><strong>Quick Questions?</strong></p>
-                <p>Contact us via CashApp for fastest response:</p>
-                <p style="margin-top: 1rem; font-size: 1.3rem;">
-                    <a href="https://cash.app/$TMHughes2025" class="contact-link">💰 $TMHughes2025</a>
-                </p>
-                <p style="margin-top: 1rem; color: #666;">Send payment requests or deposits directly through CashApp for fastest service.</p>
-            </div>
-        </section>
-
-        <div class="cta-section">
-            <h3>Ready to Get Started?</h3>
-            <p>Submit your print request above and we'll get back to you with a quote and timeline!</p>
+        <div class="cashapp-box">
+            <p><strong>Quick Questions?</strong></p>
+            <p>Contact us via CashApp for fastest response: <span style="color: #00d632;">$TMHughes2025</span></p>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2025 3D Printing Services. All prints must be safe and legal. We reserve the right to decline orders.</p>
-        <p style="margin-top: 1rem; font-size: 0.9rem;">Large orders (220mm+) require prior approval and $50 deposit.</p>
+        <p>&copy; 2025 THughes 3D Printing. All Rights Reserved.</p>
     </footer>
 
-    <script>
-        function handleOrderSubmit(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const description = document.getElementById('description').value;
-            const dimensions = document.getElementById('dimensions').value;
-            const material = document.getElementById('material').value;
-            const large = document.getElementById('large').checked;
-            const notes = document.getElementById('notes').value;
-            
-            // Create email body
-            let emailBody = `New Print Order Request:\n\n`;
-            emailBody += `Name: ${name}\n`;
-            emailBody += `Email: ${email}\n`;
-            emailBody += `Phone: ${phone || 'Not provided'}\n\n`;
-            emailBody += `Print Description:\n${description}\n\n`;
-            emailBody += `Dimensions: ${dimensions}mm\n`;
-            emailBody += `Preferred Material: ${material || 'Not specified'}\n`;
-            emailBody += `Large Order (needs approval): ${large ? 'Yes - requires $50 deposit' : 'No'}\n`;
-            emailBody += `Additional Notes:\n${notes || 'None'}\n`;
-            
-            // For now, show confirmation and instructions
-            alert(`Thank you for your order request!\n\nPlease send the details below to confirm via CashApp or email:\n\n${emailBody}\n\nWe'll review your request and get back to you within 24 hours with a quote and timeline.`);
-            
-            // Reset form
-            document.querySelector('.order-form').reset();
-        }
-    </script>
 </body>
 </html>
