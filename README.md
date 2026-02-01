@@ -205,6 +205,14 @@
         </div>
     </div>
 
+    <div class="container" style="text-align: center;">
+        <div style="background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(245,158,11,0.15)); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+            <h2 style="margin-bottom: 12px;">&#x1FA99; The Wishing Well</h2>
+            <p style="color: var(--text-dim); max-width: 500px; margin: 0 auto 20px;">Toss in a quarter, share a dream. Every month the community picks a winner and we fund their wish together.</p>
+            <a href="wishing-well.html" class="btn-primary" style="display: inline-block;">Visit The Wishing Well</a>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2025 THughes 3D Printing. All Rights Reserved.</p>
     </footer>
