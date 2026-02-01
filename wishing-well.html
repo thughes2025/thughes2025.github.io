@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wishing Well | Community Dreams Fund</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-hover: #6d28d9;
+            --accent: #f59e0b;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --success: #10b981;
+            --coin-gold: #fbbf24;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* --- Nav --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 30px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        nav a:hover { color: var(--text-main); }
+        .nav-brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent) !important;
+            letter-spacing: -0.5px;
+        }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+
+        /* --- Hero --- */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(124, 58, 237, 0.15), transparent 70%);
+        }
+        .hero-coin {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        .btn-accent { background: var(--accent); color: #0f172a; }
+        .btn-accent:hover { background: #d97706; transform: translateY(-2px); }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-outline:hover { background: var(--primary); color: white; }
+
+        /* --- How It Works --- */
+        .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .step {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .step-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+        }
+        .step h3 { margin-bottom: 8px; font-size: 1.05rem; }
+        .step p { color: var(--text-dim); font-size: 0.9rem; }
+
+        /* --- Stats Bar --- */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        .stat {
+            text-align: center;
+            padding: 24px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        .stat-label { color: var(--text-dim); font-size: 0.85rem; margin-top: 4px; }
+
+        /* --- Wish Form --- */
+        .wish-form-wrapper {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+        }
+        .donation-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .donation-btn {
+            padding: 10px;
+            background: #0f172a;
+            border: 2px solid #334155;
+            color: var(--text-main);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .donation-btn:hover,
+        .donation-btn.active {
+            border-color: var(--accent);
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent);
+        }
+
+        /* --- Wishes Board --- */
+        .wishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .wish-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .wish-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        .wish-card .wish-category {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .cat-education { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .cat-health { background: rgba(16,185,129,0.15); color: #34d399; }
+        .cat-business { background: rgba(245,158,11,0.15); color: #fbbf24; }
+        .cat-community { background: rgba(236,72,153,0.15); color: #f472b6; }
+        .cat-personal { background: rgba(124,58,237,0.15); color: #a78bfa; }
+        .cat-other { background: rgba(148,163,184,0.15); color: #94a3b8; }
+
+        .wish-card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .wish-card .wish-text {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .wish-card .wish-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .wish-author {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+        .wish-donation {
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .vote-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-dim);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .vote-btn:hover, .vote-btn.voted {
+            border-color: var(--success);
+            color: var(--success);
+            background: rgba(16,185,129,0.1);
+        }
+
+        /* --- Winner Section --- */
+        .winner-section {
+            text-align: center;
+            padding: 50px 30px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 2px solid rgba(245,158,11,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .winner-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(245,158,11,0.08), transparent 70%);
+            pointer-events: none;
+        }
+        .winner-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #0f172a;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .winner-section h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .winner-section p { color: var(--text-dim); max-width: 500px; margin: 0 auto; }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .modal h2 { margin-bottom: 10px; }
+        .modal p { color: var(--text-dim); margin-bottom: 20px; font-size: 0.95rem; }
+
+        .success-msg {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        .success-msg.show { display: block; }
+        .success-checkmark {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        /* --- Payment Info --- */
+        .payment-info {
+            background: rgba(245,158,11,0.08);
+            border: 1px dashed var(--accent);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 16px;
+        }
+        .payment-info .cashapp-tag {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #00d632;
+            margin: 8px 0;
+        }
+
+        /* --- Filter Tabs --- */
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .filter-tab {
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: transparent;
+            border: 1px solid #334155;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .filter-tab:hover, .filter-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        footer a { color: var(--primary); text-decoration: none; }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            .donation-options { grid-template-columns: repeat(2, 1fr); }
+            .wish-form-wrapper { padding: 24px; }
+            nav { padding: 12px 16px; }
+            .nav-links { gap: 14px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="wishing-well.html" class="nav-brand">The Wishing Well</a>
+        <div class="nav-links">
+            <a href="#how-it-works">How It Works</a>
+            <a href="#wishes">Wishes</a>
+            <a href="#" onclick="openModal(); return false;" class="btn btn-accent" style="padding: 8px 20px; font-size: 0.9rem;">Make a Wish</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-coin">&#x1FA99;</div>
+        <h1>The Wishing Well</h1>
+        <p>Toss in a quarter (or more), share your dream, and the community votes. Every month, the winning wish gets funded. Small coins, big dreams.</p>
+        <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+            <a href="#" onclick="openModal(); return false;" class="btn btn-primary">Toss a Coin &amp; Wish</a>
+            <a href="#wishes" class="btn btn-outline">Browse Wishes</a>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <div class="container">
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value" id="stat-wishes">0</div>
+                <div class="stat-label">Wishes Made</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="stat-pool">$0.00</div>
+                <div class="stat-label">Monthly Pool</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="stat-donors">0</div>
+                <div class="stat-label">Donors</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="stat-winners">0</div>
+                <div class="stat-label">Dreams Funded</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="container" id="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Toss a Coin</h3>
+                <p>Donate a quarter ($0.25) or more via CashApp to enter your wish into the well.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Make a Wish</h3>
+                <p>Describe your dream &mdash; starting a business, paying a bill, funding education, anything.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Community Votes</h3>
+                <p>Everyone can upvote the wishes they believe in most. Your voice matters.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Dream Funded</h3>
+                <p>At month's end the pool goes to the top-voted wish. One dream becomes reality.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Previous Winner -->
+    <div class="container">
+        <div class="winner-section">
+            <div class="winner-badge">January 2026 Winner</div>
+            <h3>Be the First Winner!</h3>
+            <p>This is a brand new community. The first monthly drawing hasn't happened yet. Make a wish now and you could be the very first dream we fund together!</p>
+        </div>
+    </div>
+
+    <!-- Wishes Board -->
+    <div class="container" id="wishes">
+        <h2 class="section-title">Community Wishes</h2>
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterWishes('all')">All</button>
+            <button class="filter-tab" onclick="filterWishes('education')">Education</button>
+            <button class="filter-tab" onclick="filterWishes('health')">Health</button>
+            <button class="filter-tab" onclick="filterWishes('business')">Business</button>
+            <button class="filter-tab" onclick="filterWishes('community')">Community</button>
+            <button class="filter-tab" onclick="filterWishes('personal')">Personal</button>
+        </div>
+        <div class="wishes-grid" id="wishes-grid">
+            <!-- Wishes populated by JS -->
+        </div>
+        <p id="no-wishes" style="text-align:center; color: var(--text-dim); display:none; padding: 40px 0;">No wishes yet. Be the first to toss a coin!</p>
+    </div>
+
+    <!-- Wish Modal -->
+    <div class="modal-overlay" id="wish-modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+
+            <div id="wish-form-container">
+                <h2>Make a Wish</h2>
+                <p>Toss in your donation via CashApp, then fill out your wish below.</p>
+
+                <div class="payment-info">
+                    <p style="font-size:0.85rem; color: var(--text-dim);">Step 1: Send your donation to</p>
+                    <div class="cashapp-tag">$TMHughes2025</div>
+                    <p style="font-size:0.8rem; color: var(--text-dim);">Minimum $0.25 &mdash; every quarter counts!</p>
+                </div>
+
+                <form id="wish-form" onsubmit="submitWish(event)" style="margin-top: 24px;">
+                    <div class="form-group">
+                        <label>Your Name (or Anonymous)</label>
+                        <input type="text" id="wish-name" placeholder="Your name or 'Anonymous'" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="wish-category">
+                            <option value="education">Education</option>
+                            <option value="health">Health</option>
+                            <option value="business">Business</option>
+                            <option value="community">Community</option>
+                            <option value="personal">Personal</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Wish / Dream</label>
+                        <input type="text" id="wish-title" placeholder="In a few words, what's your dream?" required maxlength="80">
+                    </div>
+                    <div class="form-group">
+                        <label>Tell Us More</label>
+                        <textarea id="wish-detail" rows="3" placeholder="Why does this matter to you? How would it change your life?" required maxlength="300"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Donation Amount</label>
+                        <div class="donation-options">
+                            <button type="button" class="donation-btn" onclick="setDonation(0.25, this)">$0.25</button>
+                            <button type="button" class="donation-btn" onclick="setDonation(1, this)">$1</button>
+                            <button type="button" class="donation-btn" onclick="setDonation(5, this)">$5</button>
+                            <button type="button" class="donation-btn" onclick="setDonation(0, this)">Custom</button>
+                        </div>
+                        <input type="number" id="wish-amount" min="0.25" step="0.01" value="0.25" placeholder="0.25" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">Submit My Wish</button>
+                </form>
+            </div>
+
+            <div class="success-msg" id="wish-success">
+                <div class="success-checkmark">&#10024;</div>
+                <h2>Wish Tossed In!</h2>
+                <p style="color: var(--text-dim);">Your dream has been added to the well. Share this page so others can vote for your wish!</p>
+                <button class="btn btn-primary" onclick="closeModal()" style="margin-top: 16px;">View All Wishes</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Wishing Well &mdash; A community project by <a href="README.md">THughes</a></p>
+        <p style="margin-top: 8px;">Small coins. Big dreams. Every quarter counts.</p>
+    </footer>
+
+    <script>
+        // --- Data Store (localStorage) ---
+        function getWishes() {
+            try {
+                return JSON.parse(localStorage.getItem('wishingWell_wishes')) || [];
+            } catch { return []; }
+        }
+        function saveWishes(wishes) {
+            localStorage.setItem('wishingWell_wishes', JSON.stringify(wishes));
+        }
+        function getVoted() {
+            try {
+                return JSON.parse(localStorage.getItem('wishingWell_voted')) || [];
+            } catch { return []; }
+        }
+        function saveVoted(voted) {
+            localStorage.setItem('wishingWell_voted', JSON.stringify(voted));
+        }
+
+        // Seed some starter wishes if empty
+        function seedWishes() {
+            if (getWishes().length > 0) return;
+            const seeds = [
+                {
+                    id: 'seed1', name: 'Maria G.', category: 'education',
+                    title: 'First in my family to go to college',
+                    detail: 'I\'ve been accepted to nursing school but need help with textbooks and supplies. This would change my whole family\'s future.',
+                    amount: 5, votes: 12, date: '2026-01-15'
+                },
+                {
+                    id: 'seed2', name: 'James T.', category: 'business',
+                    title: 'Start a neighborhood lawn care service',
+                    detail: 'I want to buy a commercial mower to start a business and employ teens in my neighborhood during summer.',
+                    amount: 10, votes: 8, date: '2026-01-18'
+                },
+                {
+                    id: 'seed3', name: 'Anonymous', category: 'health',
+                    title: 'Help with my daughter\'s medical bills',
+                    detail: 'My 6 year old needs ongoing treatment. Every dollar helps keep our family afloat while she gets better.',
+                    amount: 1, votes: 15, date: '2026-01-20'
+                },
+                {
+                    id: 'seed4', name: 'DeShawn R.', category: 'community',
+                    title: 'Build a free little library in our park',
+                    detail: 'Our neighborhood doesn\'t have a library nearby. I want to build a little free library box so kids have access to books.',
+                    amount: 0.25, votes: 6, date: '2026-01-22'
+                }
+            ];
+            saveWishes(seeds);
+        }
+        seedWishes();
+
+        // --- Render ---
+        let currentFilter = 'all';
+
+        function renderWishes() {
+            const wishes = getWishes();
+            const voted = getVoted();
+            const grid = document.getElementById('wishes-grid');
+            const noMsg = document.getElementById('no-wishes');
+
+            const filtered = currentFilter === 'all'
+                ? wishes
+                : wishes.filter(w => w.category === currentFilter);
+
+            // Sort by votes descending
+            filtered.sort((a, b) => b.votes - a.votes);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noMsg.style.display = 'block';
+                return;
+            }
+            noMsg.style.display = 'none';
+
+            grid.innerHTML = filtered.map(w => {
+                const hasVoted = voted.includes(w.id);
+                const catClass = 'cat-' + (w.category || 'other');
+                const catLabel = (w.category || 'other').charAt(0).toUpperCase() + (w.category || 'other').slice(1);
+                return `
+                    <div class="wish-card" data-category="${w.category}">
+                        <span class="wish-category ${catClass}">${catLabel}</span>
+                        <h3>${escapeHtml(w.title)}</h3>
+                        <p class="wish-text">${escapeHtml(w.detail)}</p>
+                        <div class="wish-footer">
+                            <span class="wish-author">${escapeHtml(w.name)} &middot; $${Number(w.amount).toFixed(2)}</span>
+                            <button class="vote-btn ${hasVoted ? 'voted' : ''}" onclick="voteWish('${w.id}')">
+                                &#9829; ${w.votes}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            updateStats();
+        }
+
+        function updateStats() {
+            const wishes = getWishes();
+            const totalPool = wishes.reduce((sum, w) => sum + Number(w.amount), 0);
+            document.getElementById('stat-wishes').textContent = wishes.length;
+            document.getElementById('stat-pool').textContent = '$' + totalPool.toFixed(2);
+            document.getElementById('stat-donors').textContent = wishes.length;
+            document.getElementById('stat-winners').textContent = '0';
+        }
+
+        function filterWishes(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderWishes();
+        }
+
+        function voteWish(id) {
+            const voted = getVoted();
+            const wishes = getWishes();
+            const wish = wishes.find(w => w.id === id);
+            if (!wish) return;
+
+            if (voted.includes(id)) {
+                // Unvote
+                wish.votes = Math.max(0, wish.votes - 1);
+                saveVoted(voted.filter(v => v !== id));
+            } else {
+                wish.votes += 1;
+                voted.push(id);
+                saveVoted(voted);
+            }
+            saveWishes(wishes);
+            renderWishes();
+        }
+
+        // --- Modal ---
+        function openModal() {
+            document.getElementById('wish-modal').classList.add('active');
+            document.getElementById('wish-form-container').style.display = 'block';
+            document.getElementById('wish-success').classList.remove('show');
+        }
+        function closeModal() {
+            document.getElementById('wish-modal').classList.remove('active');
+        }
+        // Close on overlay click
+        document.getElementById('wish-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // --- Donation buttons ---
+        let selectedAmount = 0.25;
+        function setDonation(amount, btn) {
+            document.querySelectorAll('.donation-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const input = document.getElementById('wish-amount');
+            if (amount === 0) {
+                input.value = '';
+                input.focus();
+            } else {
+                input.value = amount.toFixed(2);
+                selectedAmount = amount;
+            }
+        }
+
+        // --- Submit ---
+        function submitWish(e) {
+            e.preventDefault();
+            const name = document.getElementById('wish-name').value.trim();
+            const category = document.getElementById('wish-category').value;
+            const title = document.getElementById('wish-title').value.trim();
+            const detail = document.getElementById('wish-detail').value.trim();
+            const amount = parseFloat(document.getElementById('wish-amount').value);
+
+            if (!name || !title || !detail || isNaN(amount) || amount < 0.25) {
+                alert('Please fill out all fields. Minimum donation is $0.25.');
+                return;
+            }
+
+            const wish = {
+                id: 'w_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+                name, category, title, detail, amount,
+                votes: 0,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            const wishes = getWishes();
+            wishes.push(wish);
+            saveWishes(wishes);
+
+            // Show success
+            document.getElementById('wish-form-container').style.display = 'none';
+            document.getElementById('wish-success').classList.add('show');
+            document.getElementById('wish-form').reset();
+            document.getElementById('wish-amount').value = '0.25';
+
+            renderWishes();
+        }
+
+        // --- Utility ---
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // --- Init ---
+        renderWishes();
+    </script>
+
+</body>
+</html>
