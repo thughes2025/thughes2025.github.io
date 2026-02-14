@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top-Down Open World Survival</title>
+    <style>
+        body { margin: 0; background: #000; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const worldWidth = 4000;
+        const worldHeight = 4000;
+
+        const player = {
+            x: worldWidth / 2,
+            y: worldHeight / 2,
+            radius: 20,
+            speed: 250, // px/s
+            health: 10,
+            invincible: 0
+        };
+
+        let enemies = [];
+        let trees = [];
+        let camera = { x: 0, y: 0 };
+        let gameState = 'playing';
+        let score = 0;
+        let startTime = 0;
+        let lastSpawn = 0;
+        const spawnInterval = 6000;
+
+        const keys = {};
+
+        window.addEventListener('keydown', e => {
+            keys[e.key.toLowerCase()] = true;
+            if (gameState === 'over' && e.key.toLowerCase() === 'r') {
+                init();
+            }
+        });
+        window.addEventListener('keyup', e => {
+            keys[e.key.toLowerCase()] = false;
+        });
+
+        function spawnEnemy() {
+            let x, y, attempts = 0;
+            do {
+                x = Math.random() * worldWidth;
+                y = Math.random() * worldHeight;
+                attempts++;
+            } while (Math.hypot(x - player.x, y - player.y) < 600 && attempts < 50);
+
+            enemies.push({
+                x,
+                y,
+                radius: 18,
+                speed: 80 + Math.random() * 60
+            });
+        }
+
+        function init() {
+            player.x = worldWidth / 2;
+            player.y = worldHeight / 2;
+            player.health = 10;
+            player.invincible = 0;
+            enemies = [];
+            trees = [];
+            for (let i = 0; i < 300; i++) {
+                trees.push({
+                    x: Math.random() * worldWidth,
+                    y: Math.random() * worldHeight,
+                    r: 25 + Math.random() * 25
+                });
+            }
+            for (let i = 0; i < 5; i++) spawnEnemy();
+            startTime = performance.now();
+            lastSpawn = startTime;
+            gameState = 'playing';
+            score = 0;
+        }
+
+        let lastTime = 0;
+        function gameLoop(timestamp) {
+            if (!lastTime) lastTime = timestamp;
+            const delta = timestamp - lastTime;
+            lastTime = timestamp;
+
+            if (gameState === 'playing') {
+                update(delta);
+            }
+
+            render();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function update(delta) {
+            // Player movement
+            let moveX = 0, moveY = 0;
+            if (keys['w'] || keys['arrowup']) moveY -= 1;
+            if (keys['s'] || keys['arrowdown']) moveY += 1;
+            if (keys['a'] || keys['arrowleft']) moveX -= 1;
+            if (keys['d'] || keys['arrowright']) moveX += 1;
+
+            if (moveX || moveY) {
+                const len = Math.hypot(moveX, moveY);
+                moveX /= len;
+                moveY /= len;
+                player.x += moveX * player.speed * (delta / 1000);
+                player.y += moveY * player.speed * (delta / 1000);
+            }
+
+            // Clamp player to world
+            player.x = Math.max(player.radius, Math.min(worldWidth - player.radius, player.x));
+            player.y = Math.max(player.radius, Math.min(worldHeight - player.radius, player.y));
+
+            // Invincibility timer
+            player.invincible = Math.max(0, player.invincible - delta);
+
+            // Enemies
+            enemies.forEach(enemy => {
+                const dx = player.x - enemy.x;
+                const dy = player.y - enemy.y;
+                const dist = Math.hypot(dx, dy);
+
+                if (dist > 0) {
+                    const moveDist = enemy.speed * (delta / 1000);
+                    enemy.x += (dx / dist) * moveDist;
+                    enemy.y += (dy / dist) * moveDist;
+                }
+
+                // Collision
+                if (dist < player.radius + enemy.radius && player.invincible <= 0) {
+                    player.health--;
+                    player.invincible = 1500; // 1.5s invincibility
+                    if (player.health <= 0) {
+                        gameState = 'over';
+                    }
+                }
+            });
+
+            // Spawn new enemies
+            if (timestamp - lastSpawn > spawnInterval) {
+                spawnEnemy();
+                lastSpawn = timestamp;
+            }
+
+            // Score (seconds survived)
+            score = Math.floor((timestamp - startTime) / 1000);
+        }
+
+        function render() {
+            ctx.fillStyle = '#228B22';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Camera
+            camera.x = player.x - canvas.width / 2;
+            camera.y = player.y - canvas.height / 2;
+            camera.x = Math.max(0, Math.min(worldWidth - canvas.width, camera.x));
+            camera.y = Math.max(0, Math.min(worldHeight - canvas.height, camera.y));
+
+            const translateX = -camera.x;
+            const translateY = -camera.y;
+
+            // Trees
+            ctx.fillStyle = '#0f5132';
+            trees.forEach(tree => {
+                ctx.beginPath();
+                ctx.arc(tree.x + translateX, tree.y + translateY, tree.r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Enemies
+            ctx.fillStyle = 'red';
+            enemies.forEach(enemy => {
+                ctx.beginPath();
+                ctx.arc(enemy.x + translateX, enemy.y + translateY, enemy.radius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Player
+            ctx.fillStyle = player.invincible > 0 ? '#aaaaFF' : 'blue';
+            ctx.beginPath();
+            ctx.arc(player.x + translateX, player.y + translateY, player.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // HUD
+            ctx.fillStyle = 'white';
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText(`Health: ${player.health}`, 20, 40);
+            ctx.fillText(`Score: ${score}`, 20, 70);
+            ctx.fillText(`Enemies: ${enemies.length}`, 20, 100);
+
+            // Game Over
+            if (gameState === 'over') {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.font = '60px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2 - 60);
+                ctx.font = '40px Arial';
+                ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2);
+                ctx.font = '30px Arial';
+                ctx.fillText('Press R to Restart', canvas.width / 2, canvas.height / 2 + 60);
+            }
+        }
+
+        init();
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>
